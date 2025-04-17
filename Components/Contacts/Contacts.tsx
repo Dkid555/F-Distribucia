@@ -176,10 +176,10 @@ const Contacts: React.FC<ContactsProps> = ({ navigation }) => {
     const ourContacts: dealer = {
         coordinates: [59.962724, 30.267494],
         name: "",
-        address: "197198, г. Санкт-Петербург, ул. Ждановская д. 45, пом. 219Н",
+        address: "197198, г. Санкт-Петербург, Железноводская 32",
         workTime: ["Пн-Пт 10:00 - 20:00", "Сб-Вс c 11:00 - 19:00"],
         phoneNumbers: ["+7 812 425-35-49"],
-        webSites: ["https://plitkazavr.ru"],
+        webSites: ["https://plitkazavr.ru", "https://f-distribution.ru/"],
         mails: ["opt@f-distribution.ru"]
     };
 
@@ -309,6 +309,7 @@ const Contacts: React.FC<ContactsProps> = ({ navigation }) => {
                     </HStack>
                 </View>
             </VStack>
+            {isSmallVersion && <View style = {{height: 120}}/> }
         </View>
     );
 };

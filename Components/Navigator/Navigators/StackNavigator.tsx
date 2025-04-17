@@ -22,7 +22,8 @@ const StackNavigator: React.FC<NavigatorProps> = ({navigationRef, refSlideOutMen
     return (
         <Stack.Navigator
         screenOptions={{
-          header: (props) => <TopNavigator {...props} navigation={navigationRef} optionButtons={optionsFunction({ navigation: navigationRef, variant: 'top' })} refSlideOutMenu={refSlideOutMenu} />,
+          header: (props) => 
+          <TopNavigator {...props} navigation={navigationRef} optionButtons={optionsFunction({ navigation: navigationRef, variant: 'top' })} refSlideOutMenu={refSlideOutMenu} />,
 
         }}
       >

@@ -17,7 +17,7 @@ const ScreenWrapper: React.FC<any> = ({ children,  route }) => {
             style={{
                 position: 'relative',
                 // flex: 1,  // Full height
-                paddingTop: heightOfTopNav(isSmallVersion),
+                paddingTop: route.name == 'Warehouse' ? 0 :  heightOfTopNav(isSmallVersion),
                 height: (windowHeight) ? windowHeight  : '100vh', 
                 
                 width: windowWidth ?? '100vw',
