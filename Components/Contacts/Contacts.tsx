@@ -156,7 +156,7 @@
 
 import { View, Text, VStack, HStack, Divider, Link } from "native-base";
 import React, { useRef } from "react";
-import { BackButtonBackHome } from "../Universal/Buttons/BackButtonBackHomeModified";
+import { BackButtonBackHome, DefaultBackButton } from "../Universal/Buttons/BackButtonBackHomeModified";
 import YMapsFullScreen from "../Universal/Yandex/Maps/YMapsFullScreen";
 import { dealer } from "../WhereToBuy/Interfaces/Interface";
 import { useAppContext } from "../Universal/API/Context-API/AppContext";
@@ -175,18 +175,18 @@ const Contacts: React.FC<ContactsProps> = ({ navigation }) => {
 
     const ourContacts: dealer = {
         coordinates: [59.962724, 30.267494],
-        name: "Creatile",
+        name: "",
         address: "197198, г. Санкт-Петербург, ул. Ждановская д. 45, пом. 219Н",
         workTime: ["Пн-Пт 10:00 - 20:00", "Сб-Вс c 11:00 - 19:00"],
         phoneNumbers: ["+7 812 425-35-49"],
-        webSites: ["https://creatile.pro"],
-        mails: ["opt@creatile.ru"]
+        webSites: ["https://plitkazavr.ru"],
+        mails: ["opt@f-distribution.ru"]
     };
 
     return (
         <View flex={1} p={4} bg="white">
-            <BackButtonBackHome navigation={navigation} />
-
+            {/* {!isSmallVersion && <BackButtonBackHome navigation={navigation} />} */}
+            <DefaultBackButton navigation={navigation}/>
             <VStack space={4} alignItems="center" mt={4}>
                 <View
                     style={{
@@ -228,7 +228,7 @@ const Contacts: React.FC<ContactsProps> = ({ navigation }) => {
                     }}
                 >
                     <Text fontSize={isSmallVersion ? "lg" : "xl"} fontWeight="bold">
-                        {`${ourContacts.name}, наши контакты:`}
+                        {`Наши контакты:`}
                     </Text>
                     <Divider my={2} />
                     <HStack>

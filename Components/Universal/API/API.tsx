@@ -116,7 +116,7 @@ const defaultAPIContext = {
   getAllData: async (
     x: getAllDataProps) => {},
   sendUserRequest: async (x: sendUserRequestProps) => {},
-  serverUrl: 'https://creatile.pro/',
+  serverUrl: 'https://plitkazavr.ru/',
   sendPostRequest: async (
     json_data: Record<string, any> | null,
     link: string | null,
@@ -149,7 +149,7 @@ export const APIProvider = ({ children }: {children: any}) => {
   const {X_API_TOKEN, ACCESS_TOKEN, setAllData, setDealers} = useAppContext()
 
   const serverUrl = process.env.NODE_ENV !== 'production' ? '/api/' : 
-  'https://creatile.pro/';
+  'https://plitkazavr.ru/';
 
   console.log(serverUrl)
   function trimToValidJson(inputString: string) {
@@ -353,29 +353,29 @@ export const APIProvider = ({ children }: {children: any}) => {
 
   const getAllData = async ({mode = 'allData' }:getAllDataProps) => {
 
-    const link =  mode == 'allData' ? 'get-all-data' : 'get-dealers'
-    console.warn(serverUrl + link, X_API_TOKEN)
-    const formData = new FormData()
-    formData.append('getAll', '1');
-    const response = await sendFormDataPostRequest({
-      link: link,
-      formData:formData,
-      otherHeaderProps: {
-          'x-api-key' : X_API_TOKEN,
-      }
-    })
-    if(response){
-        console.warn(response)
+    // const link =  mode == 'allData' ? 'get-all-data' : 'get-dealers'
+    // console.warn(serverUrl + link, X_API_TOKEN)
+    // const formData = new FormData()
+    // formData.append('getAll', '1');
+    // const response = await sendFormDataPostRequest({
+    //   link: link,
+    //   formData:formData,
+    //   otherHeaderProps: {
+    //       'x-api-key' : X_API_TOKEN,
+    //   }
+    // })
+    // if(response){
+    //     console.warn(response)
 
-        if(response.success){
-            if(mode == 'dealers'){
-              setDealers(response.data)
-            }else 
-              setAllData(response.data)
-        }else {
-          console.log('')
-        }
-    }
+    //     if(response.success){
+    //         if(mode == 'dealers'){
+    //           setDealers(response.data)
+    //         }else 
+    //           setAllData(response.data)
+    //     }else {
+    //       console.log('')
+    //     }
+    // }
   }
 
   const sendUserRequest = async ({

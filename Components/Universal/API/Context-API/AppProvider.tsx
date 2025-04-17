@@ -90,15 +90,7 @@ const AppProvider: React.FC<AppProvider> = ({ children }) => {
   )
   const [X_API_TOKEN, setX_API_TOKEN] = useState(window.env.API_KEY)
 
-  const [allUnitData, setAllUnitData] = useState<null | AllUnitKKpolData>(null)
-
-  const [allCollectionsData, setAllCollectionsData] = useState<null | AllCollectionsKKpolData>(null)
-
-
-  //TODO move it to async storage 
-  const [allData, setAllData] = useState<null | AllKKpolData>(null)
-
-
+  
   const [dealersList, setDealers] = useState<dealer[]>([])
 
   // const setAllData = (x: AllKKpolData | null) => {
@@ -106,28 +98,7 @@ const AppProvider: React.FC<AppProvider> = ({ children }) => {
   //   await As
   // }
 
-  const [SearcherUnit, setSearcherUnit] = useState<any | null> (
-    null
-  )
-
-
-  useEffect(() => {
-
-    console.log('allUnitData', allUnitData)
-    setSearcherUnit(
-      allUnitData ? new Searcher(
-        Object.values(allUnitData),
-              {keySelector: (obj: KKpolData) => obj.id + ' ' + obj.col + obj.color1 + obj.color2+ obj.color3+ obj.full_size + obj.name + obj.material + obj.fab},
-          ) : null
-    )
-  }, [allUnitData])
-
-  useEffect(() => {
-    if (allData) {
-      setAllUnitData(allData.units)
-      setAllCollectionsData(allData.collections)
-    }
-  }, [allData])
+  
 
   const [ModalWindow, setModalWindow] = useState<ModalWindowProps>({
     enabled: false,
@@ -141,6 +112,8 @@ const AppProvider: React.FC<AppProvider> = ({ children }) => {
   const [isMediumVersion, setMediumVersion] = useState(currentWidth < 1500)
 
   const [isTooBigVersion, setTooBigVersion] = useState(currentWidth > 1920)
+
+
   useEffect(() => {
     setSmallVersion(currentWidth < 1000)
     setMediumVersion(currentWidth < 1500)
@@ -154,20 +127,34 @@ const AppProvider: React.FC<AppProvider> = ({ children }) => {
 
 
 
+  const [brands, setBrands] = useState<Brand[] | null>(brands_test ?? [])
+
+  const [SearcherBrands, setSearcherBrands] = useState<any | null> (
+    null
+  )
+  useEffect(() => {
+
+    console.log('brands', brands)
+    setSearcherBrands(
+      brands ? new Searcher(
+        brands,
+              {keySelector: (obj: Brand) => obj.brand},
+          ) : null
+    )
+  }, [brands])
+
 
   return (
     <AppContext.Provider value={{
+      brands, setBrands,
       dealersList, setDealers,
       SearchBarTopActive,setSearchBarTopActive,
-      SearcherUnit, setSearcherUnit,
+      SearcherBrands, setSearcherBrands,
       isTooBigVersion,
       leftSlideOut, setLeftSlideOut,
       isMediumVersion, setMediumVersion,
       isSmallVersion, setSmallVersion,
       ModalWindow, setModalWindow,
-      allUnitData, setAllUnitData,
-      allData, setAllData,
-      allCollectionsData, setAllCollectionsData,
       isIOS, isWeb, currentWidth, currentHeight, refWidth, refHeight, scaleAll, deviceType,
       ACCESS_TOKEN, setACCESS_TOKEN, X_API_TOKEN, setX_API_TOKEN,
     }}>
@@ -177,71 +164,48 @@ const AppProvider: React.FC<AppProvider> = ({ children }) => {
 
 export default AppProvider
 
-export interface AllUnitKKpolData {
-  [key: string]: KKpolData
-}
-
-export interface AllKKpolData {
-  units: AllUnitKKpolData,
-  collections: AllCollectionsKKpolData
-  about: {
-    about_text_small: string[],
-    about_small_image_address: string
-    about_big_sections: any[]
-  }
-}
-
-export interface AllCollectionsKKpolData {
-  [key: string]: CollectionsKKpolData
-}
-
-export interface CollectionsKKpolData {
-  collection_name: string,
-  "units_ids": (keyof AllUnitKKpolData)[],
-  "collection_small_image_slides_small_mmg": string[],
-  "collection_full_image_gallery_slides": string[],
-  "collection_small_image_gallery_slides_s": string[],
-}
-
-export interface KKpolData {
-  "id": string,
-  "fab": string,
-  "col": string,
-  "name": string,
-  "poverh": string,
-  "price": string,
-  "height": string,
-  "width": string,
-  "material": string,
-  "thick": string,
-  "color1": string,
-  "color2": string,
-  "color3": string,
-  "tema1": string,
-  "tema2": string,
-  "tema3": string,
-  "tema4": string,
-  "uri_small": string,
-  "uri_full": string,
-  'ed': string,
-  "var": string,
-  "ves": string,
-  "vesED": string,
-  "pack_m": string,
-  "pack_pz": string,
-  "ostatki": {
-    FreeSklad: string,
-    VPutiFree: string, 
-    ReservSklad: string, 
-    VPutiReserv: string
-  },// string json, need to decode,
-  'art': string,
-  full_size: string,
-  rect: string,
-  relief: string
-}
 export interface ResultJSON { [key: string]: any }
 
+
+export interface Brand {
+    brand: string,
+    url: string,
+    image: string,
+    description: string
+}
+
+const brands_test: Brand[] = [
+    {
+        brand: 'Creatile',
+        url: 'https://creatile.pro',
+        image: 'https://creatile.pro/js/c323ad4cc21a0765c5ba.png',
+        description: 'Современные дизайнерские решения в керамической плитке.'
+    },
+    {
+        brand: 'KKPOL',
+        url: 'https://kkpol.ru/',
+        image: 'https://kkpol.ru/upload/CNext/8fe/l5wj86ia2gywmnqx81a2nbp7vslxv3xg.svg',
+        description: 'Производитель сантехнической продукции и инженерных решений.'
+    },
+    {
+        brand: 'Deante',
+        url: 'https://deante.pl/ru',
+        image: 'https://deante.b-cdn.net/_MARKETING/NA%20WWW/logo.png?quality=75',
+        description: 'Польский бренд сантехники с акцентом на стиль и функциональность.'
+    },
+    {
+        brand: 'Atlas Concorde',
+        url: 'https://www.atlasconcorde.com/',
+        image: 'https://keramklinker.ru/upload/iblock/867/867376dcf0703072d3649833138d8f17.png',
+        description: 'Международный лидер в производстве керамической плитки премиум-класса.'
+    },
+    {
+        brand: 'Atlas Concorde Russia',
+        url: 'https://www.atlasconcorde.com/ru/kollektsiya-ac-russia',
+        image: 'https://sceramic.ru/upload/iblock/51b/51b5aefe0fd21de3efefdce31b28d2f3.png',
+        description: 'Российское подразделение Atlas Concorde с адаптированными коллекциями.'
+    },
+];
 
 
 

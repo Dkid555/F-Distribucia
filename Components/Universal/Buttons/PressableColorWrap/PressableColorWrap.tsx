@@ -24,7 +24,7 @@ export const PressableWrap:React.FC<PressableWrapProps> = ({
     triggerProps = {},
     children, 
     colors = {
-        onHoverIn: '#68ABFE',
+        onHoverIn: '#8BA4AE',
         onHoverOut: '#1E1E1E'
     },
     onPress, style = {}, setColor, activeOpacity, onHoverIn,onHoverOut,  PressableProps ={}}) => {

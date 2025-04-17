@@ -16,7 +16,7 @@ import FormMenuDealer from "./FormMenuDealer/FormMenuDealer";
 
 
 const WhereToBuy = ({ navigation }) => {
-    const { scaleAll, leftSlideOut, isTooBigVersion, currentWidth, dealersList} = useAppContext();
+    const { scaleAll, leftSlideOut, isTooBigVersion, currentWidth, isSmallVersion,  dealersList} = useAppContext();
     // const scaleAll = 1;
     const { height, width } = useWindowDimensions();
      // Определяем мобильное устройство
@@ -161,10 +161,10 @@ const WhereToBuy = ({ navigation }) => {
                             </Portal> */}
 
             {/* Кнопка назад */}
-            <View style={{ position: 'absolute', zIndex: 1000, top: 10, left: 10 }}>
-                <BackButtonBackHome navigation={navigation} />
+            {!isSmallVersion && <View style={{ position: 'absolute', zIndex: 1000, top: 10, left: 10 }}>
+                <BackButtonBackHome navigation={navigation}/>
             </View>
-
+}
             {/* Карта */}
 
             <YMapsFullScreen
@@ -226,7 +226,7 @@ const WhereToBuy = ({ navigation }) => {
                     // containerHeight={1}
                 >
                     <BottomSheetScrollView
-                        
+                        onLayout={()=>{bottomSheetRef.current?.expand()}}
                         contentContainerStyle={{ paddingHorizontal: 16, paddingBottom: 20, }}
                         stickyHeaderIndices={[0]}
                     >  

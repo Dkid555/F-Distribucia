@@ -1,6 +1,6 @@
 import {createContext, useContext} from 'react';
-import { AllCollectionsKKpolData, AllKKpolData, AllUnitKKpolData } from './AppProvider';
 import { dealer } from '../../../WhereToBuy/Interfaces/Interface';
+import { Brand } from './AppProvider';
 
 export interface DefaultJSON {
     [key: string]: any 
@@ -27,18 +27,15 @@ const defaultValue = {
     setACCESS_TOKEN: (token: '') => {},
     X_API_TOKEN: '',
     setX_API_TOKEN: (token: '') => {},
+    brands: [] as Brand[] | null,
+    setBrands: (x: Brand[] | null) => {},
 
-    allUnitData: null as AllUnitKKpolData | null, setAllUnitData:(x: AllUnitKKpolData | null) => {},
-
-    allCollectionsData: null as AllCollectionsKKpolData | null, setAllCollectionsData:(x: AllCollectionsKKpolData | null) => {},
-    
-    allData: null as AllKKpolData | null, setAllData:(x: AllKKpolData | null) => {},
-    
-    
     ModalWindow: {
         enabled: false,
         ModalWindow: null
     } as ModalWindowProps,
+
+
     setModalWindow: (ModalWindow: ModalWindowProps) => {},
     isSmallVersion: false, setSmallVersion: (x: boolean) => {},
 
@@ -52,7 +49,9 @@ const defaultValue = {
     SearchBarTopActive: false as boolean,
 
     dealersList: [] as dealer[],
-    setDealers: (x: dealer[]) => {}
+    setDealers: (x: dealer[]) => {},
+    SearcherBrands: null as any, 
+    setSearcherBrands: (x: any) => {}
 
 }
  

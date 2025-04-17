@@ -2,6 +2,7 @@ import React from "react";
 import { useAppContext } from "../API/Context-API/AppContext";
 import BackButton from "./BackButton";
 import { NavigateTo, NavigationHomeWithReset } from "../API/API";
+import { Box } from "native-base";
 
 
 interface BackButtonBackHomeProps{
@@ -9,7 +10,7 @@ interface BackButtonBackHomeProps{
     JustResetToHome?: boolean 
 }
 
-export const BackButtonBackHome:React.FC<BackButtonBackHomeProps> = React.memo(({navigation, JustResetToHome = false}) => {
+export const BackButtonBackHome:React.FC<BackButtonBackHomeProps> = React.memo(({navigation, JustResetToHome = true}) => {
     const stackCount = navigation.getState().routes.length;
     const {isSmallVersion, scaleAll, isMediumVersion} = useAppContext()
     return (
@@ -30,5 +31,20 @@ export const BackButtonBackHome:React.FC<BackButtonBackHomeProps> = React.memo((
                 fontSize: isSmallVersion ? 15 * scaleAll : isMediumVersion? 14 * scaleAll :  16 * scaleAll
             }
         }}/>
+    )
+  })
+
+
+
+interface DefaultBackButtonProps{
+    navigation:any
+}
+
+export const DefaultBackButton:React.FC<DefaultBackButtonProps> = React.memo(({navigation}) => {
+    const {isSmallVersion} = useAppContext()
+    return (
+        !isSmallVersion && <Box style={{ position: 'absolute', zIndex: 1000, top: 10, left: 10 }}>
+                            <BackButtonBackHome navigation={navigation} JustResetToHome={true}/>
+                        </Box>
     )
   })

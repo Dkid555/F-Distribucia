@@ -10,7 +10,7 @@ export interface TopButtonProps{
     minWidth?: number,
     onHoverIn?: PressableWrapProps['onHoverIn'],
     onHoverOut?: PressableWrapProps['onHoverOut'],
-
+    scaleAll: number
 }
 const TopButton:React.FC<TopButtonProps> = ({text, onHoverIn,onHoverOut, scaleAll, minWidth,  onPress}) => {
     const [color, setColor] = useState<ColorValue>('#1E1E1E')

@@ -1,187 +1,159 @@
 import * as React from 'react';
 import { LinkingOptions, NavigationContainer, useNavigationContainerRef } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { useAPI } from '../Universal/API/API';
+import { NavigateTo, useAPI } from '../Universal/API/API';
 import HomeScreen from '../HomeScreen/HomeScreen';
 import { useAppContext } from '../Universal/API/Context-API/AppContext';
-import UnitFull from '../UnitFull/UnitFull';
 import ScreenWrapper from './TopNavigator/ScreenWrapper/ScreenWrapper';
+import About from '../About/About';
+import WhereToBuy from '../WhereToBuy/WhereToBuy';
+import Contacts from '../Contacts/Contacts';
+import TopNavigator from './TopNavigator/TopNavigator';
+import { hanldeSlideOutMenu, option } from './TopNavigator/SlideOutMenu/SlideOutMenu';
+import Warehouse from '../Warehouse/Warehouse';
+import TabNavigator from './Navigators/TabNavigator';
+import { Box, View } from 'native-base';
+import { useWindowDimensions } from 'react-native';
+import Brands from '../Brands/Brands';
+import StackNavigator from './Navigators/StackNavigator';
 
 
-
-const Stack = createStackNavigator();
 
 const linking = {
-  prefixes: ['http://localhost:8080', 'https://creatile.pro'],
+  prefixes: ['http://localhost:8080', 'https://plitkazavr.ru'],
   config: {
     screens: {
       // This will map to the Home screen when accessing the root URL.
-    
+      Home: '', // our about
 
 
-      Home: '',
-      
-      Unit: {
-        path: ':idUnit',
-        parse: {
-          idUnit: (idUnit: string) => {
-            const parsedId = parseInt(idUnit, 10);
-            return isNaN(parsedId) ? null : parsedId; // Фильтруем нечисловые значения
-          },
-        },
-        stringify: {
-          idUnit: (idUnit: number) => idUnit.toString(),
-        },
-      },
-
-      Collection: {
-        path: 'collection',
-        parse: {
-          collection_name: (name) => {
-            console.log('🔥 Decoded Collection Name:', decodeURIComponent(name));
-            return decodeURIComponent(name);
-          },
-        },
-        stringify: {
-          collection_name: (name) => encodeURIComponent(name),
-        },
-      },
-
-      SearchPage: {
-        path: 'search',
-        parse: {
-          query: (name) => {
-            console.log('🔥 Decoded query ', decodeURIComponent(name));
-            return decodeURIComponent(name);
-          },
-        },
-        stringify: {
-          query: (name) => encodeURIComponent(name),
-        },
-      },
-
-
-      Collections: {
-        path: 'collections'
-      },
-      
       WhereToBuy: {
         path: 'puchase-info'
       },
 
-      About: 'about',
+      Warehouse: 'warehouse',
 
       Contacts: 'contacts'
     },
   },
 } as LinkingOptions<any>;
 
-
-
-import About from '../About/About';
-import Collection from '../Collection/Collection';
-import Collections from '../Collections/Collections';
-import WhereToBuy from '../WhereToBuy/WhereToBuy';
-import SearchPage from '../SearchPage/SearchPage';
-import Contacts from '../Contacts/Contacts';
-import TopNavigator, { handleTopNavigator } from './TopNavigator/TopNavigator';
-import SlideOutMenu, { hanldeSlideOutMenu, option } from './TopNavigator/SlideOutMenu/SlideOutMenu';
-
-
 // export default React.memo(Navigator);
 
-const StackNavigator = () => (
-  <Stack.Navigator
-  >
-    <Stack.Screen
-      name="Home"
-      options={{ headerShown: false, animationEnabled: false }}
-    >
-      {(props) => (
-        <ScreenWrapper>
-          <HomeScreen {...props} />
-        </ScreenWrapper>
-      )}
-    </Stack.Screen>
-    <Stack.Screen
-      name="Unit"
-      options={{ headerShown: false, animationEnabled: false }}
-    >
-      {(props) => (
-        <ScreenWrapper>
-          <UnitFull {...props} />
-        </ScreenWrapper>
-      )}
-    </Stack.Screen>
+export const optionsFunction = ({
+  variant = "top",
+  navigation,
 
-    <Stack.Screen
-      name="SearchPage"
-      options={{ headerShown: false, animationEnabled: false }}
-    >
-      {(props) => (
-        <ScreenWrapper>
-          <SearchPage {...props} />
-        </ScreenWrapper>
-      )}
-    </Stack.Screen>
+}: {
+  navigation: any,
+  variant: "top" | "left";
+}): option[] => [
 
-    <Stack.Screen
-      name="About"
-      options={{ headerShown: false, animationEnabled: false }}
-    >
-      {(props) => (
-        <ScreenWrapper>
-          <About {...props} />
-        </ScreenWrapper>
-      )}
-    </Stack.Screen>
+    {
+      text: "Остатки",
+      onPress: () => {
+        NavigateTo(
+          {
+            navigation,
+            goTo: 'Warehouse',
+          }
+        )
 
-    <Stack.Screen
-      name="Collection"
-      options={{ headerShown: false, animationEnabled: false }}
-    >
-      {(props) => (
-        <ScreenWrapper>
-          <Collection {...props} />
-        </ScreenWrapper>
-      )}
-    </Stack.Screen>
-    <Stack.Screen
-      name="Collections"
-      options={{ headerShown: false, animationEnabled: false }}
-    >
-      {(props) => (
-        <ScreenWrapper>
-          <Collections {...props} />
-        </ScreenWrapper>
-      )}
-    </Stack.Screen>
+      },
+      onHoverIn: () => {
 
-    <Stack.Screen
-      name='WhereToBuy'
-      options={{ headerShown: false, animationEnabled: false,}}
-    >
-      {(props) => (
-        <ScreenWrapper>
-          <WhereToBuy {...props}/>
-        </ScreenWrapper>
-      )}
+      },
+      onHoverOut: async () => {
 
-    </Stack.Screen>
+      },
+    },
+    {
+      text: "Наши Бреды",
+      onPress: () => {
+        NavigateTo(
+          {
+            navigation,
+            goTo: 'Brands',
+          }
+        )
+      },
+      onHoverIn: () => {
 
-    <Stack.Screen
-      name='Contacts'
-      options={{ headerShown: false, animationEnabled: false,}}
-    >
-      {(props) => (
-        <ScreenWrapper>
-          <Contacts {...props}/>
-        </ScreenWrapper>
-      )}
+      },
+      onHoverOut: () => {
+        // onHoverOut('Каталог', refTopSlideOutCatalog)
+      },
+    },
+    {
+      text: "Где купить",
+      onPress: () => {
+        NavigateTo(
+          {
+            navigation,
+            goTo: 'WhereToBuy',
+          }
+        )
+      },
+      onHoverIn: () => { },
+      onHoverOut: () => { },
+    },
+    {
+      text: "Контакты",
+      onPress: () => {
+        NavigateTo(
+          {
+            navigation,
+            goTo: 'Contacts',
+          }
+        )
+      },
+      onHoverIn: () => { },
+      onHoverOut: () => { },
+    },
+  ];
 
-    </Stack.Screen>
-  </Stack.Navigator>
-);
+const NavigationResulted = () => {
+  const refSlideOutMenu = React.useRef<hanldeSlideOutMenu>(null)
+
+  const navigation = useNavigationContainerRef()
+
+  const refInterval = React.useRef<number | null>(null)
+  React.useEffect(() => {
+    if (refInterval.current) {
+      clearInterval(refInterval.current)
+    }
+
+    refInterval.current = window.setInterval(() => {
+      // console.log('JJJJJ')
+      // onHoverOut({screen: "О компании", refTopSlideOut_: refTopSlideOut})
+      // onHoverOut({screen: "Каталог", refTopSlideOut_:  refTopSlideOutCatalog})
+    }, 2000)
+
+    return (() => {
+      if (refInterval.current) {
+        clearInterval(refInterval.current)
+      }
+    })
+  }, [])
+
+
+  const { isSmallVersion } = useAppContext()
+  const { height } = useWindowDimensions()
+	return (
+		<View style={{ height: height, display: 'flex' }}>
+      <NavigationContainer linking={linking}
+        ref={navigation}
+      >
+
+        {isSmallVersion ? 
+          <TabNavigator navigationRef={navigation} refSlideOutMenu={refSlideOutMenu} /> :
+          <StackNavigator navigationRef={navigation} refSlideOutMenu={refSlideOutMenu} />
+        }
+
+      </NavigationContainer>
+    </View>
+  )
+};
 
 
 
@@ -190,51 +162,47 @@ const StackNavigator = () => (
 
 // Main Navigator
 const Navigator: React.FC<any> = () => {
-  const { X_API_TOKEN,} = useAppContext();
-  const {getAllData, serverUrl} = useAPI();
+  const { X_API_TOKEN, } = useAppContext();
+  const { getAllData, serverUrl } = useAPI();
 
-  const refRefreshData = React.useRef<null | number> (null)
+  const refRefreshData = React.useRef<null | number>(null)
 
   const refreshData = async () => {
-    if (X_API_TOKEN && (serverUrl.length > 0 || __DEV__)) {
-      try {
-        await Promise.all([
-          getAllData({ mode: 'allData' }),
-          getAllData({ mode: 'dealers' }),
-        ]);
-      } catch (e) {
-        console.warn('refreshData error', e);
-      }
-    }
+    // if (X_API_TOKEN && (serverUrl.length > 0 || __DEV__)) {
+    //   try {
+    //     await Promise.all([
+    //       getAllData({ mode: 'allData' }),
+    //       getAllData({ mode: 'dealers' }),
+    //     ]);
+    //   } catch (e) {
+    //     console.warn('refreshData error', e);
+    //   }
+    // }
   };
-  
+
   React.useEffect(() => {
     if (refRefreshData.current) {
       clearInterval(refRefreshData.current);
     }
-  
+
     refreshData(); // initial run
-  
+
     refRefreshData.current = window.setInterval(() => {
       refreshData();
     }, 5 * 60 * 1000); // every 5 minutes
-  
+
     return () => {
       if (refRefreshData.current) {
         clearInterval(refRefreshData.current);
       }
     };
   }, [X_API_TOKEN, serverUrl]);
-  
+
   return (
-    <NavigationContainer linking={linking}>
-      {/* <DrawerNavigator /> */}
-      {StackNavigator()}
-    </NavigationContainer>
+    <NavigationResulted/>
   );
 };
 
 
 
 export default React.memo(Navigator);
-
